@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Grindstaff's CT Solver</title>
+    <title>Kennedy's World Solver</title>
     <style>
         :root {
             --bg: #0f172a; --card: #1e293b; --primary: #38bdf8;
@@ -11,30 +11,19 @@
         }
         body { 
             font-family: 'Segoe UI', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 10px; 
+            background-color: var(--bg); color: var(--text); 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; margin: 0; padding: 10px; 
         }
 
         #app-frame { 
-            width: 380px; 
-            height: 700px; 
-            background: var(--card); 
-            border-radius: 2rem; 
-            border: 8px solid #334155; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative; 
-            overflow: hidden; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+            width: 380px; height: 700px; 
+            background: var(--card); border-radius: 2rem; 
+            border: 8px solid #334155; display: flex; flex-direction: column; 
+            position: relative; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
         }
 
-        .header { background: var(--primary); color: var(--bg); padding: 15px; text-align: center; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .header { background: var(--primary); color: var(--bg); padding: 15px; text-align: center; font-weight: 900; text-transform: uppercase; }
 
         .progress-container { height: 6px; background: #334155; }
         #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
@@ -43,45 +32,31 @@
         .screen.active { display: flex; }
 
         .pillar-badge { 
-            display: inline-block; 
-            padding: 4px 10px; 
-            border-radius: 4px; 
-            background: var(--bg); 
-            color: var(--primary); 
-            font-size: 0.7rem; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            border: 1px solid var(--primary); 
-            margin-bottom: 15px; 
-            width: fit-content;
+            display: inline-block; padding: 4px 10px; border-radius: 4px; 
+            background: var(--bg); color: var(--primary); 
+            font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
+            border: 1px solid var(--primary); margin-bottom: 15px; 
         }
 
-        .btn-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .btn-list { display: flex; flex-direction: column; gap: 10px; margin-top: auto; padding-top: 20px; }
 
         button { 
-            background: rgba(255,255,255,0.05); 
-            color: var(--text); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            padding: 14px; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            text-align: left; 
-            transition: 0.2s; 
-            font-size: 0.9rem; 
+            background: rgba(255,255,255,0.05); color: var(--text); 
+            border: 1px solid rgba(255,255,255,0.1); padding: 14px; 
+            border-radius: 12px; cursor: pointer; text-align: left; 
+            transition: 0.2s; font-size: 0.9rem; 
         }
 
         button:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--primary); }
 
         .category-tag { font-size: 0.7rem; color: var(--accent); display: block; margin-bottom: 4px; font-weight: bold; }
-        
-        h2 { margin-top: 0; font-size: 1.4rem; }
-        p { color: var(--sub); line-height: 1.5; }
+        h2 { margin-top: 0; }
     </style>
 </head>
 <body>
 
 <div id="app-frame">
-    <div class="header">MR. GRINDSTAFF'S CT SOLVER</div>
+    <div class="header">Kennedy's World Solver</div>
     <div class="progress-container"><div id="progress-fill"></div></div>
 
     <div id="screen-home" class="screen active">
@@ -99,7 +74,7 @@
         <div class="btn-list" id="option-list"></div>
     </div>
 
-    <div id="screen-finish" class="screen" style="text-align:center; justify-content: center;">
+    <div id="screen-finish" class="screen" style="text-align:center;">
         <h2 style="color:var(--success)">Logic Applied!</h2>
         <p id="finish-text"></p>
         <button onclick="location.reload()" style="background:var(--primary); color:var(--bg); font-weight:bold; text-align:center;">Pick New Problem</button>
@@ -118,48 +93,46 @@
             ]
         },
         task: {
-            name: "Didn’t do what mom asked", cat: "LIFE SKILLS",
+            name: "Didn’t do what Mom asked", cat: "LIFE SKILLS",
             steps: [
-                { p: "Decomposition", t: "Resource Check", d: "How long will it take to complete? Check your remaining time.", o: ["10 minutes", "1 minute", "30 minutes"] },
-                { p: "Pattern Recognition", t: "Action Plan", d: "How can you get the task done effectively?", o: ["Do it fast but messy", "Do it properly and well"] },
-                { p: "Abstraction", t: "The Main Goal", d: "Focus on the objective: completing the request.", o: ["Tell Mom I don't want to", "Do it when I was asked"] },
-                { p: "Algorithmic Thinking", t: "The Logic Gate", d: "Set a rule for future chores.", o: ["IF [Clean the house] THEN [Task complete]", "IF [Don't do it] THEN [Get in trouble]"] }
+                { p: "Decomposition", t: "Resource Check", d: "How long will the task take to complete?", o: ["10 minutes", "1 minute", "30 minutes"] },
+                { p: "Pattern Recognition", t: "Efficiency", d: "How can you get the task done properly?", o: ["Get it done faster but not proper", "Do it well the first time"] },
+                { p: "Abstraction", t: "The Main Goal", d: "Focus on the objective: getting the task done.", o: ["Tell Mom you don’t want to do it", "Do it when you were asked"] },
+                { p: "Algorithmic Thinking", t: "The Backup Plan", d: "Set a simple logic rule.", o: ["IF [Clean the house] THEN [Task is done]", "IF [Don't do it] THEN [In trouble]"] }
             ]
         },
         weather: {
             name: "Storm Anxiety", cat: "WELLNESS",
             steps: [
-                { p: "Decomposition", t: "Analyze the Sound", d: "Listen closely. Break the storm into smaller parts.", o: ["Count thunder intervals", "Observe lightning patterns"] },
-                { p: "Pattern Recognition", t: "Find Safety", d: "Where have you been safe during storms before?", o: ["The lowest part of the house", "In a room with no windows"] },
-                { p: "Abstraction", t: "Identify the Trigger", d: "What specific part of the storm causes the fear?", o: ["The loud noise", "The bright flash", "The heavy rain"] },
-                { p: "Algorithmic Thinking", t: "The Calm Script", d: "Create a logic loop to stay grounded.", o: ["IF [Thunder] THEN [Listen to music]", "IF [Scared] THEN [Talk to someone]"] }
+                { p: "Decomposition", t: "Analyze the Sound", d: "Listen closely. Break the storm into parts.", o: ["Count thunder intervals", "Watch the rain patterns"] },
+                { p: "Pattern Recognition", t: "Find Safety", d: "Where is a safe place in your house?", o: ["The lowest part of the house", "A room with no windows"] },
+                { p: "Abstraction", t: "Sensory Overload", d: "What part of the storm is scariest?", o: ["The loud noise", "The bright flash", "The heavy rain"] },
+                { p: "Algorithmic Thinking", t: "The Calm Script", d: "A rule to help you stay calm.", o: ["IF [Storming] THEN [Listen to music]", "IF [Scared] THEN [Box Breathing]"] }
             ]
         },
         help: {
             name: "Asking for Help", cat: "COMMUNICATION",
             steps: [
-                { p: "Decomposition", t: "The Specific Block", d: "What part is actually stuck?", o: ["The instructions", "The specific vocabulary", "The software buttons"] },
-                { p: "Pattern Recognition", t: "Best Timing", d: "When is the best time to approach the teacher?", o: ["During work time", "During independent learning"] },
-                { p: "Abstraction", t: "Overcoming Nerves", d: "Focus on the data, not the embarrassment.", o: ["Ask after class", "Be brave and ask now"] },
-                { p: "Algorithmic Thinking", t: "The Help Loop", d: "A process for getting answers.", o: ["1. Raise hand. 2. Ask step. 3. Listen.", "1. Try 3 times. 2. Ask peer. 3. Ask teacher."] }
+                { p: "Decomposition", t: "The Question", d: "What specific part is hard?", o: ["The first instruction", "The vocabulary", "The software buttons"] },
+                { p: "Pattern Recognition", t: "Best Timing", d: "When is the teacher most available?", o: ["During work time", "During independent learning"] },
+                { p: "Abstraction", t: "The Nerves", d: "Remove the 'embarrassment' noise. What is the goal?", o: ["Go and ask after class", "Be brave and ask right now"] },
+                { p: "Algorithmic Thinking", t: "The Request", d: "Step-by-step for the teacher.", o: ["1. Raise hand. 2. State step. 3. Listen.", "1. Try 3 times. 2. Ask for help."] }
             ]
         },
         heights: {
             name: "Fear of Heights", cat: "PHOBIA",
             steps: [
-                { p: "Decomposition", t: "Pinpoint the Fear", d: "Which part of being high up triggers you?", o: ["Looking down", "The feeling of falling", "Moving while high up"] },
-                { p: "Pattern Recognition", t: "Past Safety", d: "How do you usually handle high places?", o: ["Gradual exposure", "Avoidance (Not a solution)"] },
-                { p: "Abstraction", t: "Purpose Check", d: "What is the goal of facing this height?", o: ["To enjoy the view/ride", "To overcome a personal barrier"] },
-                { p: "Algorithmic Thinking", t: "The Logic Loop", d: "Create a rule for the height.", o: ["IF [I go up] THEN [I come back down safely]", "USE HEIGHTS [For Overcoming] NOT [For Fear]"] }
+                { p: "Decomposition", t: "Identify the Fear", d: "What part of heights is scary?", o: ["Looking down", "Falling down", "Moving while high up"] },
+                { p: "Pattern Recognition", t: "Overcoming", d: "How do you usually handle this?", o: ["Gradual exposure", "Avoid high places (Not a solution)"] },
+                { p: "Abstraction", t: "The Purpose", d: "Why do you want to face this fear?", o: ["To enjoy the view/ride", "To prove I can do it"] },
+                { p: "Algorithmic Thinking", t: "The Final Rule", d: "Your logic for high places.", o: ["IF [Go up high] THEN [I come back down]", "USE HEIGHTS [For Overcoming] NOT [For Scaredness]"] }
             ]
         }
     };
 
-    let activeScenario = null; 
-    let currentStep = 0;
+    let activeScenario = null; let currentStep = 0;
     const scenarioList = document.getElementById('scenario-list');
 
-    // Load scenarios onto home screen
     for (let key in library) {
         const btn = document.createElement('button');
         btn.innerHTML = `<span class="category-tag">${library[key].cat}</span> ${library[key].name}`;
@@ -168,8 +141,7 @@
     }
 
     function startScenario(id) {
-        activeScenario = library[id]; 
-        currentStep = 0;
+        activeScenario = library[id]; currentStep = 0;
         document.getElementById('screen-home').classList.remove('active');
         document.getElementById('screen-pillar').classList.add('active');
         renderStep();
@@ -180,26 +152,20 @@
         document.getElementById('pillar-label').innerText = data.p;
         document.getElementById('step-title').innerText = data.t;
         document.getElementById('step-desc').innerText = data.d;
-        
         const optList = document.getElementById('option-list');
         optList.innerHTML = "";
-        
         data.o.forEach(choice => {
             const btn = document.createElement('button');
             btn.innerText = choice;
             btn.onclick = next;
             optList.appendChild(btn);
         });
-        
-        // Update progress bar
         document.getElementById('progress-fill').style.width = ((currentStep) / 4 * 100) + "%";
     }
 
     function next() {
-        if (currentStep < 3) { 
-            currentStep++; 
-            renderStep(); 
-        } else {
+        if (currentStep < 3) { currentStep++; renderStep(); } 
+        else {
             document.getElementById('progress-fill').style.width = "100%";
             document.getElementById('screen-pillar').classList.remove('active');
             document.getElementById('screen-finish').classList.add('active');
