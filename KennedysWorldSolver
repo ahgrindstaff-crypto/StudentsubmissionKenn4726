@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Grindstaff's CT Solver</title>
+    <style>
+        :root {
+            --bg: #0f172a; --card: #1e293b; --primary: #38bdf8;
+            --accent: #f472b6; --text: #f1f5f9; --sub: #94a3b8; --success: #4ade80;
+        }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 10px; 
+        }
+
+        #app-frame { 
+            width: 380px; 
+            height: 700px; 
+            background: var(--card); 
+            border-radius: 2rem; 
+            border: 8px solid #334155; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+        }
+
+        .header { background: var(--primary); color: var(--bg); padding: 15px; text-align: center; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+
+        .progress-container { height: 6px; background: #334155; }
+        #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
+
+        .screen { padding: 25px; flex-grow: 1; display: none; flex-direction: column; overflow-y: auto; }
+        .screen.active { display: flex; }
+
+        .pillar-badge { 
+            display: inline-block; 
+            padding: 4px 10px; 
+            border-radius: 4px; 
+            background: var(--bg); 
+            color: var(--primary); 
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            border: 1px solid var(--primary); 
+            margin-bottom: 15px; 
+            width: fit-content;
+        }
+
+        .btn-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+
+        button { 
+            background: rgba(255,255,255,0.05); 
+            color: var(--text); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            padding: 14px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            text-align: left; 
+            transition: 0.2s; 
+            font-size: 0.9rem; 
+        }
+
+        button:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--primary); }
+
+        .category-tag { font-size: 0.7rem; color: var(--accent); display: block; margin-bottom: 4px; font-weight: bold; }
+        
+        h2 { margin-top: 0; font-size: 1.4rem; }
+        p { color: var(--sub); line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div id="app-frame">
+    <div class="header">MR. GRINDSTAFF'S CT SOLVER</div>
+    <div class="progress-container"><div id="progress-fill"></div></div>
+
+    <div id="screen-home" class="screen active">
+        <h2>Select a Scenario</h2>
+        <p>How can Computational Thinking help you solve these real-life "bugs"?</p>
+        <div class="btn-list" id="scenario-list"></div>
+    </div>
+
+    <div id="screen-pillar" class="screen">
+        <div id="pillar-content">
+            <span class="pillar-badge" id="pillar-label"></span>
+            <h2 id="step-title"></h2>
+            <p id="step-desc"></p>
+        </div>
+        <div class="btn-list" id="option-list"></div>
+    </div>
+
+    <div id="screen-finish" class="screen" style="text-align:center; justify-content: center;">
+        <h2 style="color:var(--success)">Logic Applied!</h2>
+        <p id="finish-text"></p>
+        <button onclick="location.reload()" style="background:var(--primary); color:var(--bg); font-weight:bold; text-align:center;">Pick New Problem</button>
+    </div>
+</div>
+
+<script>
+    const library = {
+        homework: {
+            name: "Homework Frustration", cat: "ACADEMIC",
+            steps: [
+                { p: "Decomposition", t: "The Giant Pile", d: "You have 3 subjects and 20 problems. What is the first unit of work?", o: ["Do one math problem", "Read the first sentence", "Organize the desk"] },
+                { p: "Pattern Recognition", t: "Mental Block", d: "When do you usually get frustrated?", o: ["After 20 minutes of work", "As soon as I see the instructions"] },
+                { p: "Abstraction", t: "Filter the Stress", d: "What 'Noise' can you ignore to get started?", o: ["The total number of pages left", "What my friends are doing online"] },
+                { p: "Algorithmic Thinking", t: "The Study Loop", d: "Create your success rule.", o: ["IF [Finish 5 items] THEN [3 min stretch]", "REPEAT [Read] UNTIL [Understood]"] }
+            ]
+        },
+        task: {
+            name: "Didn’t do what mom asked", cat: "LIFE SKILLS",
+            steps: [
+                { p: "Decomposition", t: "Resource Check", d: "How long will it take to complete? Check your remaining time.", o: ["10 minutes", "1 minute", "30 minutes"] },
+                { p: "Pattern Recognition", t: "Action Plan", d: "How can you get the task done effectively?", o: ["Do it fast but messy", "Do it properly and well"] },
+                { p: "Abstraction", t: "The Main Goal", d: "Focus on the objective: completing the request.", o: ["Tell Mom I don't want to", "Do it when I was asked"] },
+                { p: "Algorithmic Thinking", t: "The Logic Gate", d: "Set a rule for future chores.", o: ["IF [Clean the house] THEN [Task complete]", "IF [Don't do it] THEN [Get in trouble]"] }
+            ]
+        },
+        weather: {
+            name: "Storm Anxiety", cat: "WELLNESS",
+            steps: [
+                { p: "Decomposition", t: "Analyze the Sound", d: "Listen closely. Break the storm into smaller parts.", o: ["Count thunder intervals", "Observe lightning patterns"] },
+                { p: "Pattern Recognition", t: "Find Safety", d: "Where have you been safe during storms before?", o: ["The lowest part of the house", "In a room with no windows"] },
+                { p: "Abstraction", t: "Identify the Trigger", d: "What specific part of the storm causes the fear?", o: ["The loud noise", "The bright flash", "The heavy rain"] },
+                { p: "Algorithmic Thinking", t: "The Calm Script", d: "Create a logic loop to stay grounded.", o: ["IF [Thunder] THEN [Listen to music]", "IF [Scared] THEN [Talk to someone]"] }
+            ]
+        },
+        help: {
+            name: "Asking for Help", cat: "COMMUNICATION",
+            steps: [
+                { p: "Decomposition", t: "The Specific Block", d: "What part is actually stuck?", o: ["The instructions", "The specific vocabulary", "The software buttons"] },
+                { p: "Pattern Recognition", t: "Best Timing", d: "When is the best time to approach the teacher?", o: ["During work time", "During independent learning"] },
+                { p: "Abstraction", t: "Overcoming Nerves", d: "Focus on the data, not the embarrassment.", o: ["Ask after class", "Be brave and ask now"] },
+                { p: "Algorithmic Thinking", t: "The Help Loop", d: "A process for getting answers.", o: ["1. Raise hand. 2. Ask step. 3. Listen.", "1. Try 3 times. 2. Ask peer. 3. Ask teacher."] }
+            ]
+        },
+        heights: {
+            name: "Fear of Heights", cat: "PHOBIA",
+            steps: [
+                { p: "Decomposition", t: "Pinpoint the Fear", d: "Which part of being high up triggers you?", o: ["Looking down", "The feeling of falling", "Moving while high up"] },
+                { p: "Pattern Recognition", t: "Past Safety", d: "How do you usually handle high places?", o: ["Gradual exposure", "Avoidance (Not a solution)"] },
+                { p: "Abstraction", t: "Purpose Check", d: "What is the goal of facing this height?", o: ["To enjoy the view/ride", "To overcome a personal barrier"] },
+                { p: "Algorithmic Thinking", t: "The Logic Loop", d: "Create a rule for the height.", o: ["IF [I go up] THEN [I come back down safely]", "USE HEIGHTS [For Overcoming] NOT [For Fear]"] }
+            ]
+        }
+    };
+
+    let activeScenario = null; 
+    let currentStep = 0;
+    const scenarioList = document.getElementById('scenario-list');
+
+    // Load scenarios onto home screen
+    for (let key in library) {
+        const btn = document.createElement('button');
+        btn.innerHTML = `<span class="category-tag">${library[key].cat}</span> ${library[key].name}`;
+        btn.onclick = () => startScenario(key);
+        scenarioList.appendChild(btn);
+    }
+
+    function startScenario(id) {
+        activeScenario = library[id]; 
+        currentStep = 0;
+        document.getElementById('screen-home').classList.remove('active');
+        document.getElementById('screen-pillar').classList.add('active');
+        renderStep();
+    }
+
+    function renderStep() {
+        const data = activeScenario.steps[currentStep];
+        document.getElementById('pillar-label').innerText = data.p;
+        document.getElementById('step-title').innerText = data.t;
+        document.getElementById('step-desc').innerText = data.d;
+        
+        const optList = document.getElementById('option-list');
+        optList.innerHTML = "";
+        
+        data.o.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.innerText = choice;
+            btn.onclick = next;
+            optList.appendChild(btn);
+        });
+        
+        // Update progress bar
+        document.getElementById('progress-fill').style.width = ((currentStep) / 4 * 100) + "%";
+    }
+
+    function next() {
+        if (currentStep < 3) { 
+            currentStep++; 
+            renderStep(); 
+        } else {
+            document.getElementById('progress-fill').style.width = "100%";
+            document.getElementById('screen-pillar').classList.remove('active');
+            document.getElementById('screen-finish').classList.add('active');
+            document.getElementById('finish-text').innerText = `Problem Solved! By using Computational Thinking, you turned an emotional "bug" into a logical solution. Code your life the way you code your apps!`;
+        }
+    }
+</script>
+
+</body>
+</html>
